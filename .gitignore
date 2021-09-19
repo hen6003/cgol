@@ -1,0 +1,7 @@
+/.cache/
+/cgol
+*.json
+*.cells
+*.rle
+*~
+*.o

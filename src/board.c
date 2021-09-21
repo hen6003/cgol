@@ -1,3 +1,4 @@
+#include <raylib.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -16,6 +17,10 @@ board *alloc_board(size_t width, size_t height, board *local_board)
 	for (size_t x = 0; x < width; x++)
 		for (size_t y = 0; y < height; y++)
 			local_board->cells[x][y] = false; 
+					
+
+	TraceLog(LOG_INFO, "Board initialized\n"
+										 "    > Size %zu x %zu", width, height);
 		
 	return local_board;
 }

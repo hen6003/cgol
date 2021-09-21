@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <raylib.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "files.h"
 
@@ -104,7 +105,7 @@ int main(int argc, char **argv)
 {		
 	// Init main_board
 	alloc_board(MAX_BOARD_SIZE, MAX_BOARD_SIZE, &main_board);
-	TraceLog(LOG_INFO, "Board loaded successfully");
+	TraceLog(LOG_INFO, "Main board initialized successfully");
 
 	if (argc < 2)
 	{
@@ -117,7 +118,18 @@ default_board:
 	}
 	else
 	{
-		board loaded_pattern = read_plaintext(argv[1]);
+		board loaded_pattern;
+		const char *file_extension = GetFileExtension(argv[1]);
+
+		if (!strcmp(file_extension, ".cells"))
+			loaded_pattern = read_plaintext(argv[1]);
+		else if (!strcmp(file_extension, ".rle"))
+			loaded_pattern = read_rle(argv[1]);
+		else
+		{
+			TraceLog(LOG_ERROR, "Filetype unsupported");
+			goto default_board;
+		}
 		
 		if (loaded_pattern.width == 0 &&
 				loaded_pattern.height == 0)

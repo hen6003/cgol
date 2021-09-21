@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 {		
 	// Init main_board
 	alloc_board(MAX_BOARD_SIZE, MAX_BOARD_SIZE, &main_board);
-	TraceLog(LOG_INFO, "Main board initialized successfully");
+	TraceLog(LOG_INFO, "CGOL: Main board initialized successfully");
 
 	if (argc < 2)
 	{
@@ -127,31 +127,31 @@ default_board:
 			loaded_pattern = read_rle(argv[1]);
 		else
 		{
-			TraceLog(LOG_ERROR, "Filetype unsupported");
+			TraceLog(LOG_ERROR, "CGOL: Filetype unsupported");
 			goto default_board;
 		}
 		
 		if (loaded_pattern.width == 0 &&
 				loaded_pattern.height == 0)
 		{
-			TraceLog(LOG_ERROR, "Failed to load pattern");
+			TraceLog(LOG_ERROR, "CGOL: Failed to load pattern");
 			goto default_board;
 		}
 		else
 		{
-			TraceLog(LOG_INFO, "Pattern loaded successfully");
+			TraceLog(LOG_INFO, "CGOL: Pattern loaded successfully");
 
 			for (size_t x = 0; x < loaded_pattern.width; x++)
 				for (size_t y = 0; y < loaded_pattern.height; y++)
 					main_board.cells[x][y] = loaded_pattern.cells[x][y];
-			TraceLog(LOG_INFO, "Pattern copied to board");
+			TraceLog(LOG_INFO, "CGOL: Pattern copied to board");
 			
 			free_board(&loaded_pattern);
-			TraceLog(LOG_INFO, "Pattern unloaded successfully");
+			TraceLog(LOG_INFO, "CGOL: Pattern unloaded successfully");
 		}
 	}
 
 	start();
 	free_board(&main_board);
-	TraceLog(LOG_INFO, "Board unloaded successfully");
+	TraceLog(LOG_INFO, "CGOL: Board unloaded successfully");
 }

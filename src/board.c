@@ -19,8 +19,8 @@ board *alloc_board(size_t width, size_t height, board *local_board)
 			local_board->cells[x][y] = false; 
 					
 
-	TraceLog(LOG_INFO, "Board initialized\n"
-										 "    > Size %zu x %zu", width, height);
+	TraceLog(LOG_INFO, "CGOL: Board initialized");
+	TraceLog(LOG_INFO, "    > Size %zu x %zu", width, height);
 		
 	return local_board;
 }

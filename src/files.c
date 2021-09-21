@@ -46,7 +46,7 @@ board read_plaintext(const char *file)
 			if (x > MAX_BOARD_SIZE ||
 					y > MAX_BOARD_SIZE)
 			{
-				TraceLog(LOG_ERROR, "Pattern exceded max size");
+				TraceLog(LOG_ERROR, "FILE: Pattern exceded max size");
 				break;
 			}
 		}
@@ -172,13 +172,13 @@ parse:
 				if (x > pattern_width ||
 						y > pattern_height)
 				{
-					TraceLog(LOG_ERROR, "Pattern exceded allocated size");
+					TraceLog(LOG_ERROR, "FILE: Pattern exceded allocated size");
 					break;
 				}
 				else if (x > MAX_BOARD_SIZE ||
 								 y > MAX_BOARD_SIZE)
 				{
-					TraceLog(LOG_ERROR, "Pattern exceded max size");
+					TraceLog(LOG_ERROR, "FILE: Pattern exceded max size");
 					break;
 				}
 			}

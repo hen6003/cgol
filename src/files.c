@@ -129,45 +129,42 @@ parse:
 			}
 			else if (line_state == PATTERN_LINE)
 			{
-				if (ch == 'b')
-				{
-					int times = 1;
-
-					if (run_count[0] != '\0')
-						times = atoi(run_count);
-						
-					while (times--)
-						x++;
-
-					strcpy(run_count, "");
-				}
-				else if (ch == 'o')
-				{
-					int times = 1;
-
-					if (run_count[0] != '\0')
-						times = atoi(run_count);
-						
-					while (times--)
-					{
-						local_board.cells[x][y] = true;
-						x++;
-					}
-
-					strcpy(run_count, "");
-				}
-				else if (ch >= '0' && ch <= '9')
+				if (ch >= '0' && ch <= '9')
 				{
 					run_count[strlen(run_count)+1] = '\0';
 					run_count[strlen(run_count)]   = ch;
 				}
-				else if (ch == '$')
-				{
-					x=0;
-					y++;
-				}
 				else if (ch == '!')
 					break;
+				else
+				{
+					int times = 1;
+
+					if (run_count[0] != '\0')
+						times = atoi(run_count);
+
+					if (ch == 'o')
+					{
+						while (times--)
+						{
+							local_board.cells[x][y] = true;
+							x++;
+						}
+					}
+					else if (ch == 'b')
+					{
+						while (times--)
+							x++;
+					}
+					else if (ch == '$')
+					{
+						x=0;
+						while (times--)
+							y++;
+					}
+
+					strcpy(run_count, "");
+				}
 
 				if (x > pattern_width ||
 						y > pattern_height)

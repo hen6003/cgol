@@ -1,0 +1,1 @@
+void cgol_update();

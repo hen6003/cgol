@@ -5,43 +5,14 @@
 #include <string.h>
 
 #include "files.h"
+#include "cgol.h"
+#include "render.h"
 
 board main_board; 
 
-bool live_cell(size_t x, size_t y)
-{
-	if (x >= MAX_BOARD_SIZE ||
-			y >= MAX_BOARD_SIZE)
-		return false;
-
-	return main_board.cells[x][y];
-}
-
-int live_neighbours(size_t x, size_t y)
-{
-	int ret = 0;
-
-	/*
-	 * 1 8 7
-	 * 2 0 6
-	 * 3 4 5
-	 */
-
-	ret += live_cell(x-1, y-1); // 1
-	ret += live_cell(x-1, y);	 // 2
-	ret += live_cell(x-1, y+1); // 3
-	ret += live_cell(x,	 y+1); // 4
-	ret += live_cell(x+1, y+1); // 5
-	ret += live_cell(x+1, y);	 // 6
-	ret += live_cell(x+1, y-1); // 7
-	ret += live_cell(x,	 y-1); // 8
-
-	return ret;
-}
-
 void start()
 {
-	int frameCounter = 0;
+	int frame_counter = 0;
 
 	// Init window
 	InitWindow(500, 500, "Conway's game of life");
@@ -50,52 +21,14 @@ void start()
 	while(!WindowShouldClose())
 	{
 		/*** Update main_board ***/
-		if ((frameCounter % 10) == 0)
-		//if (IsKeyDown(KEY_SPACE) && ((frameCounter % 10) == 0))
-		{
-			bool next_board[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
-
-			for (size_t x = 0; x < MAX_BOARD_SIZE; x++)
-				for (size_t y = 0; y < MAX_BOARD_SIZE; y++)
-				{
-					// Rules
-					int ret = live_neighbours(x,y);
-					
-					if (ret == 3)
-						next_board[x][y] = true;
-					else if (ret == 2)
-						next_board[x][y] = main_board.cells[x][y];
-					else
-						next_board[x][y] = false;
-				}
-
-			for (size_t x = 0; x < MAX_BOARD_SIZE; x++)
-				for (size_t y = 0; y < MAX_BOARD_SIZE; y++)
-					main_board.cells[x][y] = next_board[x][y];
-		}
+		if ((frame_counter % 10) == 0)
+			cgol_update();
 			
 		/*** Drawing ***/
-		int size = 500 / MAX_BOARD_SIZE;
-		
-		BeginDrawing();
-		{
-			ClearBackground(WHITE);
+		render_board();
 
-			// Draw main_board
-			for (int x = 0; x < MAX_BOARD_SIZE; x++)
-				for (int y = 0; y < MAX_BOARD_SIZE; y++)
-				{
-					Rectangle tile = {x*size, y*size, size, size};
-
-					if (main_board.cells[x][y])
-						DrawRectangleRec(tile, RED);
-
-					DrawRectangleLinesEx(tile, 0.5, GRAY);
-				}
-		}
-		EndDrawing();
-
-		frameCounter++;
+		/* Count frames for timing */
+		frame_counter++;
 	}
 
 	CloseWindow();

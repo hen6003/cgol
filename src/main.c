@@ -141,10 +141,8 @@ default_board:
 		{
 			TraceLog(LOG_INFO, "CGOL: Pattern loaded successfully");
 
-			for (size_t x = 0; x < loaded_pattern.width; x++)
-				for (size_t y = 0; y < loaded_pattern.height; y++)
-					main_board.cells[x][y] = loaded_pattern.cells[x][y];
-			TraceLog(LOG_INFO, "CGOL: Pattern copied to board");
+			if (!copy_board(loaded_pattern, main_board))
+				goto default_board;
 			
 			free_board(&loaded_pattern);
 			TraceLog(LOG_INFO, "CGOL: Pattern unloaded successfully");

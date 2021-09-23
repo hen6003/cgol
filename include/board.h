@@ -11,3 +11,4 @@ typedef struct board
 
 board *alloc_board(size_t width, size_t height, board *local_board);
 void free_board(board *local_board);
+bool copy_board(board src_board, board dest_board);
